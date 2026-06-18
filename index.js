@@ -22,17 +22,18 @@ app.get("/", (req, res) => {
   res.send("CRM API Running...");
 });
 
-sequelize
-  .sync({ alter: true })
-  .then(() => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, async () => {
+  console.log(`Server running on port ${PORT}`);
+
+  try {
+    await sequelize.authenticate();
     console.log("Database connected");
 
-    const PORT = process.env.PORT || 3000;
-
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    await sequelize.sync({ alter: true });
+    console.log("Database synced");
+  } catch (err) {
+    console.log("Database connection error:", err.message);
+  }
+});
