@@ -12,8 +12,9 @@ function Deal() {
 
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/deals";
-  const COMPANY_API = "http://localhost:3000/companies";
+  const BASE_URL = import.meta.env.VITE_API_URL || "";
+  const API = `${BASE_URL}/deals`;
+  const COMPANY_API = `${BASE_URL}/companies`;
 
   const getDeals = async () => {
     try {
