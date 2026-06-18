@@ -1,14 +1,15 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(
-  'crm_db',
-  'root',
-  'Mohana@2525',
+  process.env.DB_NAME || "crm_db",
+  process.env.DB_USER || "root",
+  process.env.DB_PASSWORD || "Mohana@2525",
   {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    dialect: process.env.DB_DIALECT || "mysql",
+    logging: false,
   }
 );
 
-module.exports = sequelize ;
+module.exports = sequelize;
