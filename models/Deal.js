@@ -20,6 +20,11 @@ const Deal = sequelize.define('Deal', {
   stage: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+
+  createdDate: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 });
 

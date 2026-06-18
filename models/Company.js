@@ -16,6 +16,10 @@ const Company = sequelize.define("Company", {
     type: DataTypes.STRING,
   },
 
+  industry: {
+    type: DataTypes.STRING,
+  },
+
 });
 
 module.exports = Company;

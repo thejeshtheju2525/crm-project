@@ -1,0 +1,56 @@
+{
+  "contacts": [],
+  "companies": [
+    {
+      "name": "Delete Company",
+      "email": "delete@gmail.com",
+      "phone": "9876543213",
+      "industry": "IT",
+      "createdDate": "6/18/2026",
+      "id": 3
+    },
+    {
+      "name": "Test Company",
+      "email": "testcompany@gmail.com",
+      "phone": "9876543210",
+      "industry": "IT",
+      "createdDate": "6/18/2026",
+      "id": 4
+    },
+    {
+      "name": "Duplicate Company",
+      "email": "duplicate@gmail.com",
+      "phone": "9876543211",
+      "industry": "IT",
+      "createdDate": "6/18/2026",
+      "id": 5
+    }
+  ],
+  "leads": [
+    {
+      "name": "Theju k",
+      "email": "thejeshtheju57@gmail.com",
+      "phone": "7013960572",
+      "status": "Qualified",
+      "createdDate": "6/18/2026",
+      "id": 1
+    },
+    {
+      "name": "Dummy Lead",
+      "email": "dummylead@gmail.com",
+      "phone": "9876543210",
+      "status": "New",
+      "createdDate": "6/18/2026",
+      "id": 2
+    },
+    {
+      "name": "Updated Lead",
+      "email": "updatedlead@gmail.com",
+      "phone": "9876543211",
+      "status": "Contacted",
+      "createdDate": "6/18/2026",
+      "id": 3
+    }
+  ],
+  "deals": []
+}

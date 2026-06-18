@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Lead() {
-
-  const [leads, setLeads] = useState([]);
+function Company() {
+  const [companies, setCompanies] = useState([]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,160 +11,140 @@ function Lead() {
 
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/leads";
+  const API = "http://localhost:3000/companies";
 
-  // GET LEADS
-  const getLeads = async () => {
-
+  const getCompanies = async () => {
     try {
-
       const res = await axios.get(API);
-
-      if (Array.isArray(res.data)) {
-        setLeads(res.data);
-      } else {
-        setLeads([]);
-      }
-
+      setCompanies(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-
-      console.log("GET ERROR:", error);
-      setLeads([]);
-
+      console.log("GET COMPANIES ERROR:", error);
+      setCompanies([]);
     }
   };
 
-  // ADD LEAD
-  const addLead = async () => {
-
+  const addCompany = async () => {
     if (!name || !email || !phone || !status) {
       alert("Please fill all fields");
       return;
     }
 
-    try {
+    const createdDate = new Date().toLocaleDateString("en-US");
 
+    try {
       await axios.post(API, {
         name,
         email,
         phone,
         status,
+        createdDate,
       });
 
       clearForm();
-
-      getLeads();
-
+      getCompanies();
     } catch (error) {
-
-      console.log("ADD ERROR:", error);
-
+      console.log("ADD COMPANY ERROR:", error);
     }
   };
 
-  // DELETE LEAD
-  const deleteLead = async (id) => {
+  const updateCompany = async () => {
+    const oldCompany = companies.find((company) => company.id === editingId);
 
     try {
-
-      await axios.delete(`${API}/${id}`);
-
-      getLeads();
-
-    } catch (error) {
-
-      console.log("DELETE ERROR:", error);
-
-    }
-  };
-
-  // EDIT LEAD
-  const editLead = (lead) => {
-
-    setEditingId(lead.id);
-
-    setName(lead.name);
-    setEmail(lead.email);
-    setPhone(lead.phone);
-    setStatus(lead.status);
-  };
-
-  // UPDATE LEAD
-  const updateLead = async () => {
-
-    if (!name || !email || !phone || !status) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    try {
-
       await axios.put(`${API}/${editingId}`, {
         name,
         email,
         phone,
         status,
+        createdDate: oldCompany?.createdDate,
       });
 
       clearForm();
-
-      getLeads();
-
+      getCompanies();
     } catch (error) {
-
-      console.log("UPDATE ERROR:", error);
-
+      console.log("UPDATE COMPANY ERROR:", error);
     }
   };
 
-  // CLEAR FORM
+  const deleteCompany = async (id) => {
+    try {
+      await axios.delete(`${API}/${id}`);
+      getCompanies();
+    } catch (error) {
+      console.log("DELETE COMPANY ERROR:", error);
+    }
+  };
+
+  const editCompany = (company) => {
+    setEditingId(company.id);
+    setName(company.name || "");
+    setEmail(company.email || "");
+    setPhone(company.phone || "");
+    setStatus(company.status || "New");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const clearForm = () => {
-
     setEditingId(null);
-
     setName("");
     setEmail("");
     setPhone("");
     setStatus("New");
   };
 
+  const formatDate = (dateValue) => {
+    if (!dateValue) return "Date not available";
+
+    const date = new Date(dateValue);
+
+    if (isNaN(date.getTime())) {
+      return dateValue;
+    }
+
+    return date.toLocaleDateString("en-US");
+  };
+
   useEffect(() => {
-    getLeads();
+    getCompanies();
   }, []);
 
   return (
-
     <div className="bg-white p-8 rounded-lg shadow-lg">
-
       <h1 className="text-4xl font-bold mb-8 text-gray-800">
-        Lead Management
+        Company Management
       </h1>
 
-      {/* FORM */}
       <div className="grid grid-cols-2 gap-6">
-
         <input
           type="text"
-          placeholder="Lead Name"
+          placeholder="Company Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
 
         <input
           type="email"
-          placeholder="Lead Email"
+          placeholder="Company Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
 
         <input
           type="text"
-          placeholder="Lead Phone"
+          placeholder="Company Phone Number"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          maxLength="10"
+          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
 
         <select
@@ -176,32 +155,25 @@ function Lead() {
           <option>New</option>
           <option>Contacted</option>
           <option>Qualified</option>
-          <option>Closed</option>
+          <option>Lost</option>
         </select>
-
       </div>
 
-      {/* BUTTONS */}
       <div className="mt-6 flex gap-4">
-
         {editingId ? (
-
           <button
-            onClick={updateLead}
+            onClick={updateCompany}
             className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
           >
-            Update Lead
+            Update Company
           </button>
-
         ) : (
-
           <button
-            onClick={addLead}
+            onClick={addCompany}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
           >
-            Add Lead
+            Add Company
           </button>
-
         )}
 
         <button
@@ -210,79 +182,63 @@ function Lead() {
         >
           Clear
         </button>
-
       </div>
 
-      {/* LEAD LIST */}
       <div className="mt-10">
-
-        <h2 className="text-3xl font-bold mb-6">
-          All Leads
-        </h2>
+        <h2 className="text-3xl font-bold mb-6">All Companies</h2>
 
         <div className="grid grid-cols-2 gap-6">
-
-          {leads.length > 0 ? (
-
-            leads.map((lead) => (
-
-              <div
-                key={lead.id}
-                className="bg-gray-100 p-6 rounded-lg shadow"
-              >
-
+          {companies.length > 0 ? (
+            companies.map((company) => (
+              <div key={company.id} className="bg-gray-100 p-6 rounded-lg shadow">
                 <h2 className="text-2xl font-bold text-blue-700">
-                  {lead.name}
+                  {company.name}
                 </h2>
 
-                <p className="text-gray-700 mt-2">
-                  {lead.email}
-                </p>
-
+                <p className="text-gray-700 mt-2">{company.email}</p>
+                <p className="text-gray-700">{company.phone}</p>
                 <p className="text-gray-700">
-                  {lead.phone}
+                  Created Date: {formatDate(company.createdDate || company.createdAt)}
                 </p>
 
-                <p className="mt-2 font-semibold text-green-700">
-                  Status: {lead.status}
-                </p>
+                {company.status && (
+                  <p
+                    className={`mt-2 font-semibold ${
+                      company.status === "Lost"
+                        ? "text-red-600"
+                        : company.status === "Qualified"
+                        ? "text-green-700"
+                        : "text-yellow-600"
+                    }`}
+                  >
+                    Status: {company.status}
+                  </p>
+                )}
 
                 <div className="mt-4 flex gap-3">
-
                   <button
-                    onClick={() => editLead(lead)}
+                    onClick={() => editCompany(company)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
                   >
                     Edit
                   </button>
 
                   <button
-                    onClick={() => deleteLead(lead.id)}
+                    onClick={() => deleteCompany(company.id)}
                     className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
                   >
                     Delete
                   </button>
-
                 </div>
-
               </div>
-
             ))
-
           ) : (
-
-            <p className="text-gray-500">
-              No leads found
-            </p>
-
+            <p className="text-gray-500">No companies found</p>
           )}
-
         </div>
-
       </div>
-
     </div>
   );
 }
 
-export default Lead;
+export default Company;

@@ -41,8 +41,17 @@ function Deal() {
       return;
     }
 
+    const createdDate = new Date().toLocaleDateString();
+
     try {
-      await axios.post(API, { title, company, value, stage });
+      await axios.post(API, {
+        title,
+        company,
+        value,
+        stage,
+        createdDate,
+      });
+
       clearForm();
       getDeals();
     } catch (error) {
@@ -56,8 +65,18 @@ function Deal() {
       return;
     }
 
+    const oldDeal = deals.find((deal) => deal.id === editingId);
+
     try {
-      await axios.put(`${API}/${editingId}`, { title, company, value, stage });
+      await axios.put(`${API}/${editingId}`, {
+        title,
+        company,
+        value,
+        stage,
+        createdDate:
+          oldDeal?.createdDate || new Date().toLocaleDateString(),
+      });
+
       clearForm();
       getDeals();
     } catch (error) {
@@ -80,6 +99,7 @@ function Deal() {
     setCompany(deal.company || "");
     setValue(deal.value || "");
     setStage(deal.stage || "Prospecting");
+     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const clearForm = () => {
@@ -97,7 +117,9 @@ function Deal() {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">Deal Management</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+        Deal Management
+      </h1>
 
       <div className="grid grid-cols-2 gap-6">
         <input
@@ -128,6 +150,7 @@ function Deal() {
           type="number"
           placeholder="Deal Value"
           value={value}
+          pattern="[0-9]*"
           onChange={(e) => setValue(e.target.value)}
           className="border p-3 rounded-lg"
           autoComplete="off"
@@ -177,10 +200,25 @@ function Deal() {
         <div className="grid grid-cols-2 gap-6">
           {deals.length > 0 ? (
             deals.map((deal) => (
-              <div key={deal.id} className="bg-gray-100 p-6 rounded-lg shadow">
-                <h2 className="text-2xl font-bold text-blue-700">{deal.title}</h2>
-                <p className="text-gray-700 mt-2">Company: {deal.company}</p>
-                <p className="text-gray-700">Value: ${deal.value}</p>
+              <div
+                key={deal.id}
+                className="bg-gray-100 p-6 rounded-lg shadow"
+              >
+                <h2 className="text-2xl font-bold text-blue-700">
+                  {deal.title}
+                </h2>
+
+                <p className="text-gray-700 mt-2">
+                  Company: {deal.company}
+                </p>
+
+                <p className="text-gray-700">
+                  Value: ${deal.value}
+                </p>
+
+                <p className="text-gray-700">
+                  Date: {deal.createdDate || "No date"}
+                </p>
 
                 <p
                   className={`mt-2 font-semibold ${
