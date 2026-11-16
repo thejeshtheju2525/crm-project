@@ -1,51 +1,110 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
 function Company() {
   const [companies, setCompanies] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [contactName, setContactName] = useState("");
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/companies";
+  const API = `${API_BASE}/companies`;
+  const CONTACT_API = `${API_BASE}/contacts`;
 
-  useEffect(() => {
-    getCompanies();
-  }, []);
+  const getLoggedInUser = () => {
+    return localStorage.getItem("crmLoggedInUser") || "admin";
+  };
+
+  const getTodayDate = () => {
+    return new Date().toLocaleDateString("en-US");
+  };
+
+  const getDateForSorting = (dateValue) => {
+    if (!dateValue) return Number.MAX_SAFE_INTEGER;
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) return Number.MAX_SAFE_INTEGER;
+    return date.getTime();
+  };
 
   const getCompanies = async () => {
     try {
       const res = await axios.get(API);
-      setCompanies(Array.isArray(res.data) ? res.data : []);
+      const companyList = Array.isArray(res.data) ? res.data : [];
+
+      const updatedCompanies = companyList.map((company) => ({
+        ...company,
+        createdDate: company.createdDate || company.createdAt || getTodayDate(),
+        createdBy: company.createdBy || getLoggedInUser(),
+      }));
+
+      const uniqueCompanies = updatedCompanies.filter((company, index, self) => {
+        const companyName = company.name?.toLowerCase().trim();
+        const companyEmail = company.email?.toLowerCase().trim();
+        const companyPhone = company.phone?.trim();
+
+        return (
+          index ===
+          self.findIndex(
+            (item) =>
+              item.name?.toLowerCase().trim() === companyName ||
+              item.email?.toLowerCase().trim() === companyEmail ||
+              item.phone?.trim() === companyPhone
+          )
+        );
+      });
+
+      setCompanies(uniqueCompanies);
     } catch (error) {
-      console.log("GET ERROR:", error);
+      console.log("GET COMPANIES ERROR:", error);
       setCompanies([]);
     }
   };
+
+  const getContacts = async () => {
+    try {
+      const res = await axios.get(CONTACT_API);
+      const contactList = Array.isArray(res.data) ? res.data : [];
+      setContacts(contactList.filter((contact) => contact.name));
+    } catch (error) {
+      console.log("GET CONTACTS ERROR:", error);
+      setContacts([]);
+    }
+  };
+
+  useEffect(() => {
+    getCompanies();
+    getContacts();
+  }, []);
 
   const clearForm = () => {
     setName("");
     setIndustry("");
     setEmail("");
     setPhone("");
+    setContactName("");
     setEditingId(null);
   };
 
   const validateCompany = (isUpdate = false) => {
-    if (!name || !email || !phone) {
+    if (!name || !email || !phone || !contactName) {
       alert("Please fill all fields");
       return false;
     }
 
     if (!isUpdate && !industry) {
-      alert("Please select an industry");
+      alert("Please select an industry type");
       return false;
     }
 
-    if (!email.endsWith("@gmail.com")) {
-      alert("Email must end with @gmail.com");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
       return false;
     }
 
@@ -62,9 +121,9 @@ function Company() {
 
     const duplicateCompany = companies.find(
       (company) =>
-        company.name.toLowerCase() === name.toLowerCase() ||
-        company.email.toLowerCase() === email.toLowerCase() ||
-        company.phone === phone
+        company.name?.toLowerCase().trim() === name.toLowerCase().trim() ||
+        company.email?.toLowerCase().trim() === email.toLowerCase().trim() ||
+        company.phone?.trim() === phone.trim()
     );
 
     if (duplicateCompany) {
@@ -73,17 +132,20 @@ function Company() {
     }
 
     try {
-      const res = await axios.post(API, {
+      await axios.post(API, {
         name,
         industry,
         email,
         phone,
+        contactName,
+        createdDate: getTodayDate(),
+        createdBy: getLoggedInUser(),
       });
 
-      setCompanies([...companies, res.data]);
       clearForm();
+      getCompanies();
     } catch (error) {
-      console.log("ADD ERROR:", error);
+      console.log("ADD COMPANY ERROR:", error);
     }
   };
 
@@ -93,6 +155,13 @@ function Company() {
     setIndustry(company.industry || "");
     setEmail(company.email || "");
     setPhone(company.phone || "");
+    setContactName(company.contactName || "");
+
+    const pageContainer = document.querySelector("main");
+
+    if (pageContainer) {
+      pageContainer.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -101,17 +170,26 @@ function Company() {
     if (!validateCompany(true)) return;
 
     try {
+      const existingCompany = companies.find((company) => company.id === editingId);
+
       await axios.put(`${API}/${editingId}`, {
+        ...existingCompany,
         name,
         industry,
         email,
         phone,
+        contactName,
+        createdDate:
+          existingCompany?.createdDate ||
+          existingCompany?.createdAt ||
+          getTodayDate(),
+        createdBy: existingCompany?.createdBy || getLoggedInUser(),
       });
 
-      getCompanies();
       clearForm();
+      getCompanies();
     } catch (error) {
-      console.log("UPDATE ERROR:", error);
+      console.log("UPDATE COMPANY ERROR:", error);
     }
   };
 
@@ -120,15 +198,30 @@ function Company() {
       await axios.delete(`${API}/${id}`);
       getCompanies();
     } catch (error) {
-      console.log("DELETE ERROR:", error);
+      console.log("DELETE COMPANY ERROR:", error);
     }
   };
 
+  const formatDate = (dateValue) => {
+    if (!dateValue) return "Date not available";
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) return dateValue;
+    return date.toLocaleDateString("en-US");
+  };
+
+  const sortedCompanies = [...companies].sort(
+    (a, b) =>
+      getDateForSorting(a.createdDate || a.createdAt) -
+      getDateForSorting(b.createdDate || b.createdAt)
+  );
+
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
-        Company Management
-      </h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">
+          Company Management
+        </h1>
+      </div>
 
       <div className="grid grid-cols-2 gap-6">
         <input
@@ -137,6 +230,7 @@ function Company() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
 
         <select
@@ -144,7 +238,7 @@ function Company() {
           onChange={(e) => setIndustry(e.target.value)}
           className="border p-3 rounded-lg bg-white"
         >
-          <option value="">Select Industry</option>
+          <option value="">Select Industry Type</option>
           <option value="IT">IT</option>
           <option value="Education">Education</option>
           <option value="Healthcare">Healthcare</option>
@@ -164,15 +258,31 @@ function Company() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
 
         <input
           type="text"
           placeholder="Phone"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+          maxLength="10"
           className="border p-3 rounded-lg"
+          autoComplete="off"
         />
+
+        <select
+          value={contactName}
+          onChange={(e) => setContactName(e.target.value)}
+          className="border p-3 rounded-lg bg-white"
+        >
+          <option value="">Select Contact</option>
+          {contacts.map((contact) => (
+            <option key={contact.id} value={contact.name}>
+              {contact.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mt-6 flex gap-4">
@@ -201,13 +311,18 @@ function Company() {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-3xl font-bold mb-6">All Companies</h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-3xl font-bold">All Companies</h2>
+          <div className="bg-blue-100 text-blue-700 font-bold px-5 py-3 rounded-lg shadow-sm">
+            Total Companies: {sortedCompanies.length}
+          </div>
+        </div>
 
-        {companies.length === 0 ? (
+        {sortedCompanies.length === 0 ? (
           <p className="text-gray-500">No companies found</p>
         ) : (
           <div className="grid grid-cols-2 gap-6">
-            {companies.map((company) => (
+            {sortedCompanies.map((company) => (
               <div key={company.id} className="bg-gray-100 p-5 rounded-lg shadow">
                 <h3 className="text-xl font-bold text-blue-700">
                   {company.name}
@@ -216,6 +331,11 @@ function Company() {
                 <p className="mt-2">Industry: {company.industry || "N/A"}</p>
                 <p>Email: {company.email}</p>
                 <p>Phone: {company.phone}</p>
+                <p>Contact Name: {company.contactName || "N/A"}</p>
+                <p>
+                  Created Date: {formatDate(company.createdDate || company.createdAt)}
+                </p>
+                <p>Created By: {company.createdBy || "admin"}</p>
 
                 <div className="mt-4 flex gap-3">
                   <button

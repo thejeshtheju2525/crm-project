@@ -23,6 +23,11 @@ const Lead = sequelize.define("Lead", {
     defaultValue: "New",
   },
 
+  source: {
+    type: DataTypes.STRING,
+    defaultValue: "Website",
+  },
+
 });
 
 module.exports = Lead;
