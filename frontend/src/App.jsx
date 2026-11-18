@@ -5,7 +5,7 @@ import Lead from "./Lead";
 import Deal from "./Deal";
 import Login from "./Login";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 
 function App() {
   const [activePage, setActivePage] = useState("leads");

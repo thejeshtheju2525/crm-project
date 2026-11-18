@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+const API_BASE = "/api";
 const API = `${API_BASE}/deals`;
 const COMPANY_API = `${API_BASE}/companies`;
 
