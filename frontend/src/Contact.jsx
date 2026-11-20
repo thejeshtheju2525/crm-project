@@ -277,9 +277,17 @@ function Contact() {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             {contacts.map((contact) => (
               <div key={contact.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <h2 className="text-2xl font-bold text-blue-700">
-                  {contact.name}
-                </h2>
+                <div className="flex items-center gap-3">
+                  <span
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 text-xl shadow-sm"
+                    aria-hidden="true"
+                  >
+                    👤
+                  </span>
+                  <h2 className="min-w-0 break-words text-2xl font-bold text-blue-700">
+                    {contact.name}
+                  </h2>
+                </div>
 
                 <p className="text-gray-700 mt-2">{contact.email}</p>
                 <p className="text-gray-700">
