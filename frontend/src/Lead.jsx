@@ -183,12 +183,12 @@ function Lead() {
   const lostCount = sortedLeads.filter((lead) => lead.status === "Lost").length;
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8 text-gray-800">
         Lead Management
       </h1>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <input
           type="text"
           placeholder="Lead Name"
@@ -243,7 +243,7 @@ function Lead() {
         </select>
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 [&>button]:w-full sm:[&>button]:w-auto">
         {editingId ? (
           <button
             onClick={updateLead}
@@ -269,10 +269,10 @@ function Lead() {
       </div>
 
       <div className="mt-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">All Leads</h2>
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold">All Leads</h2>
 
-          <div className="flex gap-4 text-sm font-semibold">
+          <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 text-xs sm:text-sm font-semibold">
             <div className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-lg">
               New: {newCount}
             </div>
@@ -288,7 +288,7 @@ function Lead() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           {sortedLeads.length > 0 ? (
             sortedLeads.map((lead) => (
               <div key={lead.id} className="bg-gray-100 p-6 rounded-lg shadow">

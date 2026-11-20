@@ -216,14 +216,14 @@ function Company() {
   );
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg">
+    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800">
           Company Management
         </h1>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <input
           type="text"
           placeholder="Company Name"
@@ -285,7 +285,7 @@ function Company() {
         </select>
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 [&>button]:w-full sm:[&>button]:w-auto">
         {editingId ? (
           <button
             onClick={updateCompany}
@@ -311,8 +311,8 @@ function Company() {
       </div>
 
       <div className="mt-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">All Companies</h2>
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold">All Companies</h2>
           <div className="bg-blue-100 text-blue-700 font-bold px-5 py-3 rounded-lg shadow-sm">
             Total Companies: {sortedCompanies.length}
           </div>
@@ -321,7 +321,7 @@ function Company() {
         {sortedCompanies.length === 0 ? (
           <p className="text-gray-500">No companies found</p>
         ) : (
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             {sortedCompanies.map((company) => (
               <div key={company.id} className="bg-gray-100 p-5 rounded-lg shadow">
                 <h3 className="text-xl font-bold text-blue-700">

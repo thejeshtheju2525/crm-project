@@ -162,13 +162,13 @@ function Contact() {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8 text-gray-800">
         Contact Management
       </h1>
 
-      <div className="grid grid-cols-2 gap-6">
-        <div className="relative flex gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="relative flex flex-col sm:flex-row gap-2">
           <input
             type="text"
             placeholder="Contact Name"
@@ -181,7 +181,7 @@ function Contact() {
           <button
             type="button"
             onClick={() => setShowLeadPicker(!showLeadPicker)}
-            className="bg-blue-600 text-white px-4 rounded-lg hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700"
             title="Show Qualified Leads"
           >
             👥
@@ -238,7 +238,7 @@ function Contact() {
         />
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 [&>button]:w-full sm:[&>button]:w-auto">
         {editingId ? (
           <button
             onClick={updateContact}
@@ -264,8 +264,8 @@ function Contact() {
       </div>
 
       <div className="mt-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">All Contacts</h2>
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold">All Contacts</h2>
           <div className="bg-blue-100 text-blue-700 font-bold px-5 py-3 rounded-lg shadow-sm">
             Total Contacts: {contacts.length}
           </div>
@@ -274,7 +274,7 @@ function Contact() {
         {contacts.length === 0 ? (
           <p className="text-gray-500">No contacts found</p>
         ) : (
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             {contacts.map((contact) => (
               <div key={contact.id} className="bg-gray-100 p-6 rounded-lg shadow">
                 <h2 className="text-2xl font-bold text-blue-700">

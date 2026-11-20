@@ -11,6 +11,7 @@ function App() {
   const [activePage, setActivePage] = useState("leads");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [dateFilter, setDateFilter] = useState("6");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [counts, setCounts] = useState({
     leads: 0,
@@ -139,6 +140,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
 
   const openPage = (page) => {
     setActivePage(page);
+    setIsMobileMenuOpen(false);
     if (page === "dashboard") fetchCounts();
   };
 
@@ -523,17 +525,17 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
   const wonPercent = totalDealsStatus ? Math.round((counts.dealsWon / totalDealsStatus) * 100) : 0;
 
   const renderDashboard = () => (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-start mb-4">
+    <div className="p-3 sm:p-6 bg-gray-50 min-h-full">
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start mb-4">
         <div>
-          <h1 className="text-3xl font-extrabold mb-1 text-gray-800">CRM Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 text-gray-800">CRM Dashboard</h1>
           <p className="text-gray-600 text-sm">Overview of total records present in your CRM.</p>
         </div>
 
         <select
           value={dateFilter}
           onChange={(e) => setDateFilter(e.target.value)}
-          className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-700 shadow-sm cursor-pointer"
+          className="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-700 shadow-sm cursor-pointer"
         >
           <option value="all">📅 All Time</option>
           <option value="1">📅 Last 1 Month</option>
@@ -606,7 +608,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-        <div className="flex items-center gap-4 px-5 py-2 border-r border-gray-200">
+        <div className="flex items-center gap-4 px-2 sm:px-5 py-4 md:py-2 border-b md:border-b-0 md:border-r border-gray-200">
           <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl">📈</div>
           <div>
             <h3 className="font-bold text-blue-700 text-sm">Leads Conversion Rate</h3>
@@ -615,7 +617,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 px-5 py-2 border-r border-gray-200">
+        <div className="flex items-center gap-4 px-2 sm:px-5 py-4 md:py-2 border-b md:border-b-0 md:border-r border-gray-200">
           <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl">🏢</div>
           <div>
             <h3 className="font-bold text-purple-700 text-sm">Companies Added</h3>
@@ -624,7 +626,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 px-5 py-2">
+        <div className="flex items-center gap-4 px-2 sm:px-5 py-4 md:py-2">
           <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl">🎯</div>
           <div>
             <h3 className="font-bold text-green-700 text-sm">Deals Win Rate</h3>
@@ -649,8 +651,20 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <nav className="w-60 bg-blue-950 text-white flex flex-col shadow-2xl">
+    <div className="flex min-h-[100dvh] bg-gray-50 overflow-hidden">
+      {isMobileMenuOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation menu"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+        />
+      )}
+
+      <nav className={`fixed inset-y-0 left-0 z-40 w-64 bg-blue-950 text-white flex flex-col shadow-2xl transition-transform duration-300 lg:static lg:w-60 lg:translate-x-0 ${
+        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+      }`}>
+        <div className="flex items-center justify-between pr-3">
         <button
           type="button"
           onClick={() => openPage("dashboard")}
@@ -658,6 +672,15 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         >
           CRM
         </button>
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="rounded-lg px-3 py-2 text-2xl hover:bg-blue-800 lg:hidden"
+          >
+            ×
+          </button>
+        </div>
 
         <div className="flex-1 p-3 space-y-3">
           <button type="button" onClick={() => openPage("dashboard")} className={menuClass("dashboard")}>🏠 Dashboard</button>
@@ -678,7 +701,21 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         </div>
       </nav>
 
-      <main className="flex-1 overflow-auto">{renderContent()}</main>
+      <div className="flex min-w-0 flex-1 flex-col h-[100dvh]">
+        <header className="flex h-16 shrink-0 items-center justify-between bg-blue-950 px-4 text-white shadow-lg lg:hidden">
+          <button
+            type="button"
+            aria-label="Open navigation menu"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="rounded-lg px-3 py-2 text-2xl hover:bg-blue-800"
+          >
+            ☰
+          </button>
+          <span className="text-lg font-bold capitalize">{activePage}</span>
+          <span className="w-11" aria-hidden="true" />
+        </header>
+        <main className="min-w-0 flex-1 overflow-auto">{renderContent()}</main>
+      </div>
     </div>
   );
 }

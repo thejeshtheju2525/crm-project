@@ -227,12 +227,12 @@ function Deal() {
   const lostCount = sortedDeals.filter((deal) => deal.stage === "Lost").length;
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8 text-gray-800">
         Deal Management
       </h1>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <input
           type="text"
           placeholder="Deal Title"
@@ -276,7 +276,7 @@ function Deal() {
         </select>
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 [&>button]:w-full sm:[&>button]:w-auto">
         {editingId ? (
           <button
             onClick={updateDeal}
@@ -302,10 +302,10 @@ function Deal() {
       </div>
 
       <div className="mt-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">Deal Pipeline</h2>
+        <div className="flex flex-col gap-4 xl:flex-row xl:justify-between xl:items-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold">Deal Pipeline</h2>
 
-          <div className="flex gap-3 text-sm font-semibold">
+          <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 text-xs sm:text-sm font-semibold">
             <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg">
               Proposal Sent: {proposalCount}
             </div>
@@ -324,7 +324,7 @@ function Deal() {
         {sortedDeals.length === 0 ? (
           <p className="text-gray-500">No deals found</p>
         ) : (
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             {sortedDeals.map((deal) => (
               <div key={deal.id} className="relative bg-gray-100 p-5 rounded-lg shadow">
                 <button
