@@ -526,53 +526,87 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
 
   const renderDashboard = () => (
     <div className="p-3 sm:p-6 bg-gradient-to-br from-slate-50 via-blue-50/60 to-indigo-50 min-h-full">
-      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start mb-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-700 bg-clip-text text-transparent">CRM Dashboard</h1>
-          <p className="text-gray-600 text-sm">Overview of total records present in your CRM.</p>
-        </div>
+      <div className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 p-5 text-white shadow-2xl shadow-blue-900/20 sm:p-8">
+        <div className="absolute -right-14 -top-20 h-56 w-56 rounded-full bg-blue-400/20 blur-2xl" />
+        <div className="absolute -bottom-24 left-1/3 h-52 w-52 rounded-full bg-indigo-400/20 blur-2xl" />
+        <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-blue-100 backdrop-blur">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
+              Live CRM analytics
+            </div>
+            <h1 className="text-3xl font-black tracking-tight sm:text-4xl">Business Overview</h1>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-blue-100/80 sm:text-base">
+              Track customers, companies, leads, and deals from one intelligent workspace.
+            </p>
+          </div>
 
-        <select
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-          className="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-700 shadow-sm cursor-pointer"
-        >
-          <option value="all">📅 All Time</option>
-          <option value="1">📅 Last 1 Month</option>
-          <option value="3">📅 Last 3 Months</option>
-          <option value="6">📅 Last 6 Months</option>
-          <option value="12">📅 Last 12 Months</option>
-        </select>
+          <div className="min-w-0 sm:min-w-48">
+            <p className="mb-2 text-xs font-bold uppercase tracking-wider text-blue-200">Reporting period</p>
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-full rounded-xl border border-white/20 bg-white px-4 py-3 font-semibold text-slate-700 shadow-lg cursor-pointer"
+            >
+              <option value="all">📅 All Time</option>
+              <option value="1">📅 Last 1 Month</option>
+              <option value="3">📅 Last 3 Months</option>
+              <option value="6">📅 Last 6 Months</option>
+              <option value="12">📅 Last 12 Months</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-extrabold text-slate-900">Key metrics</h2>
+          <p className="text-xs text-slate-500">Tap a card to manage its records</p>
+        </div>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm">4 modules</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-5">
-        <div onClick={() => openPage("leads")} className="bg-gradient-to-br from-amber-50 to-yellow-100 p-5 rounded-2xl border border-amber-200/70 shadow-lg shadow-amber-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
-          <div className="absolute right-5 top-5 bg-yellow-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">👥</div>
-          <h2 className="text-xl font-bold text-yellow-800">Leads</h2>
-          <p className="text-4xl font-extrabold mt-3 text-yellow-900">{counts.leads}</p>
-          <p className="text-gray-700 mt-2 text-sm">Total leads present</p>
+        <div onClick={() => openPage("leads")} className="group bg-white p-5 rounded-2xl border border-amber-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-amber-400 to-orange-500" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-amber-100 transition-transform duration-300 group-hover:scale-125" />
+          <div className="absolute right-5 top-5 bg-gradient-to-br from-amber-100 to-orange-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">👥</div>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-amber-700">Leads</h2>
+          <p className="text-4xl font-black mt-4 text-slate-900">{counts.leads}</p>
+          <p className="text-slate-500 mt-2 text-sm font-medium">Potential customers</p>
         </div>
 
-        <div onClick={() => openPage("contacts")} className="bg-gradient-to-br from-sky-50 to-blue-100 p-5 rounded-2xl border border-blue-200/70 shadow-lg shadow-blue-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
-          <div className="absolute right-5 top-5 bg-blue-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">👤</div>
-          <h2 className="text-xl font-bold text-blue-800">Contacts</h2>
-          <p className="text-4xl font-extrabold mt-3 text-blue-900">{counts.contacts}</p>
-          <p className="text-gray-700 mt-2 text-sm">Total contacts present</p>
+        <div onClick={() => openPage("contacts")} className="group bg-white p-5 rounded-2xl border border-blue-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400 to-blue-600" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-blue-100 transition-transform duration-300 group-hover:scale-125" />
+          <div className="absolute right-5 top-5 bg-gradient-to-br from-sky-100 to-blue-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">👤</div>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-blue-700">Contacts</h2>
+          <p className="text-4xl font-black mt-4 text-slate-900">{counts.contacts}</p>
+          <p className="text-slate-500 mt-2 text-sm font-medium">People in your network</p>
         </div>
 
-        <div onClick={() => openPage("companies")} className="bg-gradient-to-br from-violet-50 to-purple-100 p-5 rounded-2xl border border-purple-200/70 shadow-lg shadow-purple-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
-          <div className="absolute right-5 top-5 bg-purple-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">🏢</div>
-          <h2 className="text-xl font-bold text-purple-800">Companies</h2>
-          <p className="text-4xl font-extrabold mt-3 text-purple-900">{counts.companies}</p>
-          <p className="text-gray-700 mt-2 text-sm">Total companies present</p>
+        <div onClick={() => openPage("companies")} className="group bg-white p-5 rounded-2xl border border-violet-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-violet-400 to-purple-600" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-violet-100 transition-transform duration-300 group-hover:scale-125" />
+          <div className="absolute right-5 top-5 bg-gradient-to-br from-violet-100 to-purple-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">🏢</div>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-violet-700">Companies</h2>
+          <p className="text-4xl font-black mt-4 text-slate-900">{counts.companies}</p>
+          <p className="text-slate-500 mt-2 text-sm font-medium">Business accounts</p>
         </div>
 
-        <div onClick={() => openPage("deals")} className="bg-gradient-to-br from-emerald-50 to-green-100 p-5 rounded-2xl border border-green-200/70 shadow-lg shadow-green-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
-          <div className="absolute right-5 top-5 bg-green-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">🤝</div>
-          <h2 className="text-xl font-bold text-green-800">Deals</h2>
-          <p className="text-4xl font-extrabold mt-3 text-green-900">{counts.deals}</p>
-          <p className="text-gray-700 mt-2 text-sm">Total deals present</p>
+        <div onClick={() => openPage("deals")} className="group bg-white p-5 rounded-2xl border border-emerald-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-emerald-400 to-green-600" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-emerald-100 transition-transform duration-300 group-hover:scale-125" />
+          <div className="absolute right-5 top-5 bg-gradient-to-br from-emerald-100 to-green-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">🤝</div>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-700">Deals</h2>
+          <p className="text-4xl font-black mt-4 text-slate-900">{counts.deals}</p>
+          <p className="text-slate-500 mt-2 text-sm font-medium">Active opportunities</p>
         </div>
+      </div>
+
+      <div className="mb-3 mt-7">
+        <h2 className="text-lg font-extrabold text-slate-900">Performance analytics</h2>
+        <p className="text-xs text-slate-500">A visual summary of your CRM activity</p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-5">

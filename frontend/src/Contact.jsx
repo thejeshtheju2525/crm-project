@@ -168,27 +168,28 @@ function Contact() {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        <div className="relative flex flex-col sm:flex-row gap-2">
+        <div className="relative">
           <input
             type="text"
             placeholder="Contact Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border p-3 rounded-lg w-full"
+            className="border p-3 pr-16 rounded-lg w-full"
             autoComplete="off"
           />
 
           <button
             type="button"
             onClick={() => setShowLeadPicker(!showLeadPicker)}
-            className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700"
+            className="absolute right-2 top-1/2 flex h-10 w-11 -translate-y-1/2 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm hover:bg-blue-700"
             title="Show Qualified Leads"
+            aria-label="Show qualified leads"
           >
             👥
           </button>
 
           {showLeadPicker && (
-            <div className="absolute top-14 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
+            <div className="absolute top-full mt-2 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
               {qualifiedLeads.length === 0 ? (
                 <p className="p-3 text-gray-500 text-sm">No qualified leads found</p>
               ) : (
