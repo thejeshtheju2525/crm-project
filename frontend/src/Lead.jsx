@@ -183,7 +183,7 @@ function Lead() {
   const lostCount = sortedLeads.filter((lead) => lead.status === "Lost").length;
 
   return (
-    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+    <div className="min-h-full bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 sm:p-8">
       <h1 className="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8 text-gray-800">
         Lead Management
       </h1>
@@ -291,7 +291,7 @@ function Lead() {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           {sortedLeads.length > 0 ? (
             sortedLeads.map((lead) => (
-              <div key={lead.id} className="bg-gray-100 p-6 rounded-lg shadow">
+              <div key={lead.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <h2 className="text-2xl font-bold text-blue-700">
                   {lead.name}
                 </h2>

@@ -216,7 +216,7 @@ function Company() {
   );
 
   return (
-    <div className="min-h-full bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+    <div className="min-h-full bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 sm:p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl sm:text-4xl font-bold text-gray-800">
           Company Management
@@ -323,7 +323,7 @@ function Company() {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             {sortedCompanies.map((company) => (
-              <div key={company.id} className="bg-gray-100 p-5 rounded-lg shadow">
+              <div key={company.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <h3 className="text-xl font-bold text-blue-700">
                   {company.name}
                 </h3>

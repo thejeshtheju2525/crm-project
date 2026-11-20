@@ -158,8 +158,8 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
   const menuClass = (page) =>
     `w-full text-left px-5 py-3 rounded-xl transition-all duration-300 flex items-center gap-3 ${
       activePage === page
-        ? "bg-blue-600 text-white font-semibold shadow-lg"
-        : "hover:bg-blue-800 text-white"
+        ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow-lg shadow-blue-950/30"
+        : "text-blue-100 hover:bg-white/10 hover:text-white"
     }`;
 
   const getPercent = (value, total) => {
@@ -245,7 +245,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
     });
 
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-[360px] overflow-hidden">
+      <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg shadow-slate-200/60 border border-white p-4 h-[360px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-lg">{icon}</span>
@@ -335,7 +335,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         : "";
 
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-[360px] overflow-hidden">
+      <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg shadow-slate-200/60 border border-white p-4 h-[360px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-lg">{icon}</span>
@@ -449,7 +449,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
     const maxValue = Math.max(...entries.map(([, value]) => value), 1);
 
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-[360px] overflow-hidden">
+      <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg shadow-slate-200/60 border border-white p-4 h-[360px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-lg">{icon}</span>
@@ -525,10 +525,10 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
   const wonPercent = totalDealsStatus ? Math.round((counts.dealsWon / totalDealsStatus) * 100) : 0;
 
   const renderDashboard = () => (
-    <div className="p-3 sm:p-6 bg-gray-50 min-h-full">
+    <div className="p-3 sm:p-6 bg-gradient-to-br from-slate-50 via-blue-50/60 to-indigo-50 min-h-full">
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start mb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 text-gray-800">CRM Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-700 bg-clip-text text-transparent">CRM Dashboard</h1>
           <p className="text-gray-600 text-sm">Overview of total records present in your CRM.</p>
         </div>
 
@@ -546,28 +546,28 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-5">
-        <div onClick={() => openPage("leads")} className="bg-yellow-100 p-5 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition relative h-36">
+        <div onClick={() => openPage("leads")} className="bg-gradient-to-br from-amber-50 to-yellow-100 p-5 rounded-2xl border border-amber-200/70 shadow-lg shadow-amber-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
           <div className="absolute right-5 top-5 bg-yellow-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">👥</div>
           <h2 className="text-xl font-bold text-yellow-800">Leads</h2>
           <p className="text-4xl font-extrabold mt-3 text-yellow-900">{counts.leads}</p>
           <p className="text-gray-700 mt-2 text-sm">Total leads present</p>
         </div>
 
-        <div onClick={() => openPage("contacts")} className="bg-blue-100 p-5 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition relative h-36">
+        <div onClick={() => openPage("contacts")} className="bg-gradient-to-br from-sky-50 to-blue-100 p-5 rounded-2xl border border-blue-200/70 shadow-lg shadow-blue-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
           <div className="absolute right-5 top-5 bg-blue-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">👤</div>
           <h2 className="text-xl font-bold text-blue-800">Contacts</h2>
           <p className="text-4xl font-extrabold mt-3 text-blue-900">{counts.contacts}</p>
           <p className="text-gray-700 mt-2 text-sm">Total contacts present</p>
         </div>
 
-        <div onClick={() => openPage("companies")} className="bg-purple-100 p-5 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition relative h-36">
+        <div onClick={() => openPage("companies")} className="bg-gradient-to-br from-violet-50 to-purple-100 p-5 rounded-2xl border border-purple-200/70 shadow-lg shadow-purple-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
           <div className="absolute right-5 top-5 bg-purple-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">🏢</div>
           <h2 className="text-xl font-bold text-purple-800">Companies</h2>
           <p className="text-4xl font-extrabold mt-3 text-purple-900">{counts.companies}</p>
           <p className="text-gray-700 mt-2 text-sm">Total companies present</p>
         </div>
 
-        <div onClick={() => openPage("deals")} className="bg-green-100 p-5 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition relative h-36">
+        <div onClick={() => openPage("deals")} className="bg-gradient-to-br from-emerald-50 to-green-100 p-5 rounded-2xl border border-green-200/70 shadow-lg shadow-green-100/70 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-36 overflow-hidden">
           <div className="absolute right-5 top-5 bg-green-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl">🤝</div>
           <h2 className="text-xl font-bold text-green-800">Deals</h2>
           <p className="text-4xl font-extrabold mt-3 text-green-900">{counts.deals}</p>
@@ -607,7 +607,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 bg-white/90 backdrop-blur rounded-2xl shadow-lg shadow-slate-200/60 border border-white p-4">
         <div className="flex items-center gap-4 px-2 sm:px-5 py-4 md:py-2 border-b md:border-b-0 md:border-r border-gray-200">
           <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl">📈</div>
           <div>
@@ -661,7 +661,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         />
       )}
 
-      <nav className={`fixed inset-y-0 left-0 z-40 w-64 bg-blue-950 text-white flex flex-col shadow-2xl transition-transform duration-300 lg:static lg:w-60 lg:translate-x-0 ${
+      <nav className={`fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-slate-950 via-blue-950 to-indigo-950 text-white flex flex-col shadow-2xl transition-transform duration-300 lg:static lg:w-60 lg:translate-x-0 ${
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
         <div className="flex items-center justify-between pr-3">
@@ -702,7 +702,7 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
       </nav>
 
       <div className="flex min-w-0 flex-1 flex-col h-[100dvh]">
-        <header className="flex h-16 shrink-0 items-center justify-between bg-blue-950 px-4 text-white shadow-lg lg:hidden">
+        <header className="flex h-16 shrink-0 items-center justify-between bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 px-4 text-white shadow-lg lg:hidden">
           <button
             type="button"
             aria-label="Open navigation menu"
