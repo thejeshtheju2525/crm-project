@@ -566,38 +566,38 @@ const dealsList = dealsRawList.filter((deal, index, self) => {
         <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm">4 modules</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-5">
-        <div onClick={() => openPage("leads")} className="group bg-white p-5 rounded-2xl border border-amber-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 mb-5">
+        <div onClick={() => openPage("leads")} className="group col-start-1 row-start-1 bg-white p-4 sm:p-5 rounded-2xl border border-amber-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-amber-400 to-orange-500" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-amber-100 transition-transform duration-300 group-hover:scale-125" />
-          <div className="absolute right-5 top-5 bg-gradient-to-br from-amber-100 to-orange-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">👥</div>
+          <div className="absolute right-3 top-4 sm:right-5 sm:top-5 bg-gradient-to-br from-amber-100 to-orange-100 w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-sm">👥</div>
           <h2 className="text-sm font-bold uppercase tracking-wider text-amber-700">Leads</h2>
           <p className="text-4xl font-black mt-4 text-slate-900">{counts.leads}</p>
           <p className="text-slate-500 mt-2 text-sm font-medium">Potential customers</p>
         </div>
 
-        <div onClick={() => openPage("contacts")} className="group bg-white p-5 rounded-2xl border border-blue-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+        <div onClick={() => openPage("contacts")} className="group col-start-2 row-start-1 bg-white p-4 sm:p-5 rounded-2xl border border-blue-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400 to-blue-600" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-blue-100 transition-transform duration-300 group-hover:scale-125" />
-          <div className="absolute right-5 top-5 bg-gradient-to-br from-sky-100 to-blue-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">👤</div>
+          <div className="absolute right-3 top-4 sm:right-5 sm:top-5 bg-gradient-to-br from-sky-100 to-blue-100 w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-sm">👤</div>
           <h2 className="text-sm font-bold uppercase tracking-wider text-blue-700">Contacts</h2>
           <p className="text-4xl font-black mt-4 text-slate-900">{counts.contacts}</p>
           <p className="text-slate-500 mt-2 text-sm font-medium">People in your network</p>
         </div>
 
-        <div onClick={() => openPage("companies")} className="group bg-white p-5 rounded-2xl border border-violet-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+        <div onClick={() => openPage("companies")} className="group col-start-1 row-start-2 bg-white p-4 sm:p-5 rounded-2xl border border-violet-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-violet-400 to-purple-600" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-violet-100 transition-transform duration-300 group-hover:scale-125" />
-          <div className="absolute right-5 top-5 bg-gradient-to-br from-violet-100 to-purple-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">🏢</div>
+          <div className="absolute right-3 top-4 sm:right-5 sm:top-5 bg-gradient-to-br from-violet-100 to-purple-100 w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-sm">🏢</div>
           <h2 className="text-sm font-bold uppercase tracking-wider text-violet-700">Companies</h2>
           <p className="text-4xl font-black mt-4 text-slate-900">{counts.companies}</p>
           <p className="text-slate-500 mt-2 text-sm font-medium">Business accounts</p>
         </div>
 
-        <div onClick={() => openPage("deals")} className="group bg-white p-5 rounded-2xl border border-emerald-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
+        <div onClick={() => openPage("deals")} className="group col-start-2 row-start-2 bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-lg shadow-slate-200/60 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative h-40 overflow-hidden">
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-emerald-400 to-green-600" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-emerald-100 transition-transform duration-300 group-hover:scale-125" />
-          <div className="absolute right-5 top-5 bg-gradient-to-br from-emerald-100 to-green-100 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm">🤝</div>
+          <div className="absolute right-3 top-4 sm:right-5 sm:top-5 bg-gradient-to-br from-emerald-100 to-green-100 w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-sm">🤝</div>
           <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-700">Deals</h2>
           <p className="text-4xl font-black mt-4 text-slate-900">{counts.deals}</p>
           <p className="text-slate-500 mt-2 text-sm font-medium">Active opportunities</p>
